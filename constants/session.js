@@ -1,0 +1,4 @@
+export const FETCH_LOGIN = 'FETCH_LOGIN';
+export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
+export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
+export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT';

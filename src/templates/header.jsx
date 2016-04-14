@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { getLoginStatusIfNeeded, requestLogout } from '../../actions/session';
 
 class Header extends Component {
   render() {
+
     return (
       <header id="header">
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-light bg-faded">
           <div className="container">
-            <div classs="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
+            <button type="button" className="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+            &#9776;
+            </button>
+            <div className="collapse navbar-toggleable-xs" id="navbar-collapse">
               <Link className="navbar-brand" to="/">Follow Manager</Link>
-            </div>
-
-            <div className="collapse navbar-collapse" id="navbar-collapse">
               <ul className="nav navbar-nav">
-                <li><Link to='about'>About</Link></li>
+                <li className={'nav-item ' + this.props.isActive('about')}><Link to='about' className="nav-link">About</Link></li>
               </ul>
+              <div className="pull-xs-right">
+                <button className="btn btn-link" onClick={this.props.getLoginStatusClick}>{this.props.isFetching ? '取得中' : '取得完了'} {this.props.isLogin ? 'ログイン中' : '未ログイン'}</button>
+                <button className="btn btn-link" onClick={this.props.requestLogout}>ログアウト</button>
+              </div>
             </div>
           </div>
         </nav>
@@ -29,4 +30,25 @@ class Header extends Component {
   }
 }
 
-export default Header;
+function mapStateToProps(state) {
+  return {
+    session: state.session,
+    routing: state.routing
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    isActive(name) {
+      return this.routing.locationBeforeTransitions.pathname === name ? 'active' : '';
+    },
+    getLoginStatusClick() {
+      dispatch(getLoginStatusIfNeeded());
+    },
+    requestLogout() {
+      dispatch(requestLogout());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

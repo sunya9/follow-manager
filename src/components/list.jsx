@@ -5,41 +5,50 @@ import { connect } from 'react-redux';
 
 class List extends Component {
   componentDidMount() {
-    this.props.getUsers();
+
   }
   render() {
     const rows = [];
-    this.props.users.forEach(user => {
-      rows.push(<User data={user} />);
-    });
+    console.log(this.props);
+    if(this.props.users.users.friends) {
+      this.props.users.users.friends.forEach(id => {
+        const user = Object.assign({id}, this.props.users.users.allUserInfo[id]);
+        // console.log(user);
+        rows.push(
+          <li key={user.id}>
+            <User data={user} />
+          </li>
+        );
+      });
+    }
 
     return (
       <div>
         <button className="btn btn-default" onClick={this.props.getUsers}>再取得</button>
-        <ul>
+        <ol className="list-unstyled">
           {rows}
-        </ul>
+        </ol>
       </div>
     );
   }
 }
 
-List.propTytpes = {
-  users: PropTypes.array
-};
-
-List.defaultProps = {
-  users: []
-};
-
 function mapStateToProps(state) {
-  return state.users;
+  return {
+    users: state.users,
+    userInfo: state.userInfo
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers() {
-      dispatch(getUsersIfNeeded());
+      console.log(this);
+      dispatch(getUsersIfNeeded()).then(() => {
+        // const allUser = union()
+        // const allUserInfo =
+        // return Promise.all(allUserInfo);
+      });
     }
   };
 };

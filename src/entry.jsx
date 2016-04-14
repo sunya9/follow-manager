@@ -15,6 +15,8 @@ import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 import thunkMiddleware from 'redux-thunk';
 import App from '../containers/App';
+import 'bootstrap';
+
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
     <LogMonitor theme="tomorrow" preserveScrollTop={false} />

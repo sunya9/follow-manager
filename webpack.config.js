@@ -8,13 +8,15 @@ let config = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    sourceMapFilename: '[name].js.map'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      'window.Tether': 'tether'
     })
   ],
   resolve: {

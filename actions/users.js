@@ -34,7 +34,7 @@ export function getUsersIfNeeded() {
   return (dispatch, getState) => {
     if(getState().isFetching) {
       return Promise.resolve();
-    } else {
+    } else if(!getState().isInitialized) {
       return dispatch(getUsers());
     }
   };

@@ -1,32 +1,92 @@
-const Twitter = require('twitter');
-const key = require('../config/key');
-const passport = require('passport');
+const push = Array.prototype.push;
+const PromisifyTwitter = require('../utils/promisify-twitter');
+const co = require('co');
 const _ = require('lodash');
 
 exports.get = function *() {
-  const client = new Twitter({
-    consumer_key: key.consumerKey,
-    consumer_secret: key.consumerSecret,
-    access_token_key: this.req.user.token,
-    access_token_secret: this.req.user.tokenSecret
-  });
-  let cursor = -1;
+  'use strict';
+
+  const client = new PromisifyTwitter(this);
   const res = {
-    friends: []
+    friends: [
+      58752234,
+      94347296,
+      14674531,
+      64240449,
+      86061782,
+      16069066,
+      47035434,
+      4622881
+    ],
+    followers: [
+      58752234,
+      94347296,
+      14674531,
+      64240449,
+      86061782,
+      16069066,
+      47035434,
+      4622881
+    ],
+    allUserInfo: [],
+    error: null
   };
-  do {
-    client.get('/friends/ids.json', {
-      user_id: this.req.user.id,
-      cursor
-    }, (error, body) => {
-      Array.prototype.push.apply(res.friends, body.ids);
-      if(body.next_cursor_str) cursor = bodynext_cursor_str;
+
+  const getIds = resource => {
+    return new Promise((resolve, reject) => {
+      co(function *() {
+        let cursor = -1;
+        const res = [];
+        do {
+          try {
+            const ids = yield client.get(resource, {
+              user_id: this.req.user.id,
+              cursor
+            });
+            push.apply(res, ids.ids);
+            cursor = ids.next_cursor_str;
+          } catch(e) {
+            reject(e);
+          }
+        }while(cursor !== '0');
+        resolve(res);
+      }.bind(this));
     });
+  };
 
-  }n
-  this.body = JSON.stringify([]);
+  try {
+    // const ids = yield {
+    //   friends: getIds('/friends/ids.json'),
+    //   followers: getIds('/followers/ids.json')
+    // };
+    //
+    // push.apply(res.friends, ids.friends);
+    // push.apply(res.followers, ids.followers);
+
+    const allIds = _.union(res.friends, res.followers).splice(0, 100);
+    res.allUserInfo = yield _.chain(allIds)
+      .chunk(100)
+      .map(chunkedIds => chunkedIds.join(','))
+      .map(stringIds => {
+        return Promise.all([
+          client.get('/users/lookup.json', {
+            user_id: stringIds
+          }),
+          client.get('/friendships/lookup.json', {
+            user_id: stringIds
+          })
+        ]);
+      })
+    .value();
+    res.allUserInfo = _.chain(res.allUserInfo)
+      .map(unmergedInfo => _.merge(unmergedInfo[0], unmergedInfo[1]))
+      .flatten()
+      .keyBy('id_str')
+      .value();
+    this.body = JSON.stringify(res);
+  } catch(e) {
+    let e2 = e;
+    if(_.isArray(e2)) e2 = e2[0];
+    this.body = e2;
+  }
 };
-
-function getAllIds(resource, cursor) {
-
-}

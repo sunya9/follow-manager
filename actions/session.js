@@ -1,15 +1,15 @@
 import $ from 'jquery';
-import { FETCH_LOGIN, RECEIVE_LOGIN, REQUEST_LOGOUT, RECEIVE_LOGOUT } from '../constants/session';
+import { FETCH_LOGIN_STATUS, RECEIVE_LOGIN_STATUS, REQUEST_LOGOUT, SUCCESS_LOGOUT, FAILED_LOGOUT } from '../constants/session';
 
 export const fetchLogin = () => {
   return {
-    type: FETCH_LOGIN
+    type: FETCH_LOGIN_STATUS
   };
 };
 
 export const receiveLogin = (isLogin) => {
   return {
-    type: RECEIVE_LOGIN,
+    type: RECEIVE_LOGIN_STATUS,
     isLogin: isLogin
   };
 };
@@ -42,8 +42,15 @@ function fetchLogout() {
 
 function receiveLogout(ok) {
   return {
-    type: RECEIVE_LOGOUT,
+    type: SUCCESS_LOGOUT,
     isLogin: !ok
+  };
+}
+
+function failedLogout(error) {
+  return {
+    type: FAILED_LOGOUT,
+    error
   };
 }
 
@@ -53,6 +60,9 @@ function logout() {
     return $.getJSON('/logout')
       .done(ok => {
         dispatch(receiveLogout(ok));
+      })
+      fail((xh, error) => {
+        dispatch(failedLogout(error));
       });
   };
 }

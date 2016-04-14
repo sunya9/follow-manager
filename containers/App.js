@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { getLoginStatusIfNeeded } from '../actions/session';
 import { getUsersIfNeeded } from '../actions/users';
-import { getUserInfoIfNeeded } from '../actions/user-info';
 
 import Header from '../src/templates/header';
 import Footer from '../src/templates/footer';
@@ -39,9 +38,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getLoginStatusIfNeeded());
     },
     getUsers() {
-      dispatch(getUsersIfNeeded()).then(() => {
-        dispatch(getUserInfoIfNeeded());
-      });
+      dispatch(getUsersIfNeeded());
     }
   };
 };

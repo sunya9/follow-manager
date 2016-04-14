@@ -17,6 +17,9 @@
   "plugins": [
     "react"
   ],
+  "globals": [
+    "React"
+  ],
   "rules": {
     "indent": [
       2,

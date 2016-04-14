@@ -10,6 +10,7 @@ const serve = require('koa-static');
 const routes = require('./config/routes');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-generic-session');
+const json = require('koa-json');
 
 const app = koa();
 
@@ -17,9 +18,10 @@ app.use(logger());
 app.use(bodyParser());
 app.keys = require('./config/salt');
 app.use(session());
+app.use(json());
 
 passport(app);
-
+require('koa-qs')(app);
 
 app.use(require('koa-webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
@@ -32,9 +34,10 @@ app.use(require('koa-webpack-hot-middleware')(compiler, {
   heartbeat: 10 * 1000
 }));
 
-routes(app);
 
 app.use(serve('./public'));
+
+routes(app);
 
 app.listen(3000);
 

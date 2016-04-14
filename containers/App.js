@@ -2,25 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getLoginStatusIfNeeded } from '../actions/session';
+import { getUsersIfNeeded } from '../actions/users';
+import { getUserInfoIfNeeded } from '../actions/user-info';
 
-import Header from 'templates/header';
-import Footer from 'templates/footer';
+import Header from '../src/templates/header';
+import Footer from '../src/templates/footer';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(getLoginStatusIfNeeded())
+    this.props.getLoginStatus();
+    if(this.props.session.isLogin && !this.props.users.isInitialized) {
+      this.props.getUsers();
+    }
   }
 
   render() {
     return (
       <div>
         <Header />
-        <main className="container">
+        <main>
           {this.props.children}
         </main>
         <Footer />
@@ -29,8 +29,21 @@ class App extends Component {
   }
 }
 
-App.defaultProps = {
-  login: false
+function mapStateToProps(state) {
+  return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getLoginStatus() {
+      dispatch(getLoginStatusIfNeeded());
+    },
+    getUsers() {
+      dispatch(getUsersIfNeeded()).then(() => {
+        dispatch(getUserInfoIfNeeded());
+      });
+    }
+  };
 };
 
-export default connect()(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

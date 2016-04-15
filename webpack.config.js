@@ -40,6 +40,7 @@ let config = {
       }
     ]
   },
+  devtool: '#source-map',
   devServer: {
     hot: true,
     proxy: {

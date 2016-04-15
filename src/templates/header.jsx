@@ -19,7 +19,7 @@ class Header extends Component {
                 <li className={'nav-item ' + this.props.isActive('about')}><Link to='about' className="nav-link">About</Link></li>
               </ul>
               <div className="pull-xs-right">
-                <button className="btn btn-link" onClick={this.props.getLoginStatusClick}>{this.props.isFetching ? '取得中' : '取得完了'} {this.props.isLogin ? 'ログイン中' : '未ログイン'}</button>
+                <button className="btn btn-link" onClick={this.props.getLoginStatusClick}>{this.props.session.isFetching ? '取得中' : '取得完了'} {this.props.session.isLogin ? 'ログイン中' : '未ログイン'}</button>
                 <button className="btn btn-link" onClick={this.props.requestLogout}>ログアウト</button>
               </div>
             </div>

@@ -15,11 +15,19 @@ export const DevTools = createDevTools(
 
 export default function configureStore() {
   const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
-  return createStoreWithMiddleware(
+  const store = createStoreWithMiddleware(
     combineReducers({
       ...reducers,
       routing: routerReducer
     }),
     DevTools.instrument()
   );
+
+  if (module.hot) {
+    module.hot.accept('../../reducers', () => {
+      const nextRootReducer = require('../../reducers/index');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+  return store;
 }

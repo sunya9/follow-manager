@@ -1,3 +1,6 @@
 @import 'variables';
 
 @import '~bootstrap/scss/bootstrap-flex';
+
+$fa-font-path: '~font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome'

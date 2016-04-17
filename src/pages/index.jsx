@@ -12,7 +12,6 @@ class Index extends Component {
           <div className="container">
             <h1>Follow Manager</h1>
             <p>That is the friends & followers management tool of Twitter.</p>
-            <a href="/token" className="btn btn-link">Login with Twitter</a>
           </div>
         </div>
         <div className="container">

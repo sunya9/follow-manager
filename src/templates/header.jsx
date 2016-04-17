@@ -5,7 +5,7 @@ import { getLoginStatusIfNeeded, requestLogout } from '../../actions/session';
 
 class Header extends Component {
   render() {
-
+    const loginOrLogout = this.props.session.isLogin ? <button className="btn btn-primary-outline" onClick={this.props.requestLogout}>ログアウト</button> : <a href="/token" className="btn btn-primary">Login with Twitter</a>;
     return (
       <header id="header">
         <nav className="navbar navbar-light bg-faded">
@@ -20,7 +20,8 @@ class Header extends Component {
               </ul>
               <div className="pull-xs-right">
                 <button className="btn btn-link" onClick={this.props.getLoginStatusClick}>{this.props.session.isFetching ? '取得中' : '取得完了'} {this.props.session.isLogin ? 'ログイン中' : '未ログイン'}</button>
-                <button className="btn btn-link" onClick={this.props.requestLogout}>ログアウト</button>
+                {loginOrLogout}
+
               </div>
             </div>
           </div>

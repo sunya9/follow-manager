@@ -1,3 +1,20 @@
 $enable-shadows: true;
+$enable-gradients: true;
 $border-radius: 1px;
 $navbar-border-radius: 0;
+$font-size-root: 14px;
+$font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, '游ゴシック', 'Yu Gothic', sans-serif;
+$font-family-serif: Georgia, Times, 'Times New Roman', '游明朝', 'Yu Mincho', serif;
+$body-bg: #efecca;
+$body-color: #555;
+$brand-primary: #046380;
+$jumbotron-bg: #e6e2af;
+$jumbotron-color: #fff;
+$card-bg: rgba(#fff, .6);
+$list-group-bg: transparent;
+$card-border-color: #a7a37e;
+$list-group-border-color: $card-border-color;
+
+$fa-font-path: '~font-awesome/fonts';
+
+$secondary-color: #046380;

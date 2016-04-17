@@ -4,20 +4,13 @@ import { getUsersIfNeeded } from '../../actions/users';
 import { connect } from 'react-redux';
 
 class List extends Component {
-  componentDidMount() {
-
-  }
   render() {
     const rows = [];
-    console.log(this.props);
-    if(this.props.users.users.friends) {
-      this.props.users.users.friends.forEach(id => {
-        const user = Object.assign({id}, this.props.users.users.allUserInfo[id]);
+    if(this.props.users.friends) {
+      this.props.users.friends.forEach(id => {
         // console.log(user);
         rows.push(
-          <li key={user.id}>
-            <User data={user} />
-          </li>
+            <User key={id} userId={id} />
         );
       });
     }
@@ -25,30 +18,22 @@ class List extends Component {
     return (
       <div>
         <button className="btn btn-default" onClick={this.props.getUsers}>再取得</button>
-        <ol className="list-unstyled">
+        <div className="card-deck">
           {rows}
-        </ol>
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    users: state.users,
-    userInfo: state.userInfo
-  };
+  return state.users;
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers() {
-      console.log(this);
-      dispatch(getUsersIfNeeded()).then(() => {
-        // const allUser = union()
-        // const allUserInfo =
-        // return Promise.all(allUserInfo);
-      });
+      dispatch(getUsersIfNeeded());
     }
   };
 };

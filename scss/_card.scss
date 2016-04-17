@@ -1,0 +1,60 @@
+.card-deck {
+  .responsive-card {
+    @extend .card;
+    flex: none;
+    width: calc(100% / 1 - .625rem * 2);
+    @include media-breakpoint-up(md) {
+      width: calc(100% / 2 - .625rem * 2);
+    }
+    @include media-breakpoint-up(lg) {
+      width: calc(100% / 3 - .625rem * 2);
+    }
+    &--selected {
+      border-color: $secondary-color;
+      background-color: rgba(#fff, .95);
+    }
+    .card-img-top {
+      height: 150px;
+      background-size: cover;
+      cursor: pointer;
+      + .card-block {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: -36px;
+        background: transparent linear-gradient(to bottom, transparent 5px, rgba(#000, .5) 36px, transparent 37px);
+      }
+    }
+    .media {
+      .media-left {
+        &__icon {
+          border-radius: 50%;
+          border: 3px double #fff;
+          background-color: #fff;
+        }
+      }
+    }
+    .card-title {
+      font-size: 1.1rem;
+      &__name, &__screen-name {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      &__name {
+        font-size: 1.2rem;
+        color: #fff;
+        text-shadow: 0 0 1px #000;
+        font-weight: bold;
+        margin: .8rem 0 0;
+      }
+    }
+    .list-group-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .card-text {
+      word-break: break-word;
+    }
+  }
+}

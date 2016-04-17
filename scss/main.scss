@@ -1,6 +1,8 @@
 @import 'variables';
 
 @import '~bootstrap/scss/bootstrap-flex';
+@import '~font-awesome/scss/font-awesome';
 
-$fa-font-path: '~font-awesome/fonts';
-@import '~font-awesome/scss/font-awesome'
+@import 'card';
+@import 'user';
+@import 'utils';

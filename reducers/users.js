@@ -3,7 +3,11 @@ import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT } from '../consta
 export default (state = {
   isFetching: false,
   isInitialized: false,
-  users: {},
+  users: {
+    followers: [],
+    friends: [],
+    allUserInfo: {}
+  },
   error: null
 }, action) => {
   switch(action.type) {

@@ -5,14 +5,15 @@ import { createLink } from '../../utils';
 
 class User extends Component {
   render() {
-    if(this.props.profile_image_url_https) {
-      var profile_image_url_https = this.props.profile_image_url_https.replace('normal', 'bigger');
+    var profile_image_url_https = this.props.profile_image_url_https;
+    if(profile_image_url_https) {
+      profile_image_url_https = profile_image_url_https.replace('normal', 'bigger');
     }
-    if(this.props.description) {
-      var description = this.props.description.replace(/@[A-Za-z_0-9]+/g, id => createLink(`https://twitter.com/${id.substring(1)}`, id));
+    var description = this.props.description;
+    if(description) {
+      description = description.replace(/@[A-Za-z_0-9]+/g, id => createLink(`https://twitter.com/${id.substring(1)}`, id));
       this.props.entities.description.urls.forEach(url => description = description.replace(new RegExp(url.url, 'g'), createLink(url.expanded_url, url.expanded_url)));
     }
-    console.log(this.props);
     return (
       <div className={'responsive-card ' + (this.props.select ? 'responsive-card--selected' : '')}>
         <input type="checkbox" checked={this.props.select} className="user__select" onChange={this.props.toggleSelect} />

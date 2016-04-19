@@ -1,16 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import List from '../components/list';
+import Toolbar from '../components/toolbar';
 
 class Index extends Component {
   render() {
-    console.log(this.props);
     const selectUserCount = Object.keys(this.props.users.users.allUserInfo).filter(id => this.props.users.users.allUserInfo[id].select).length;
     const friendsCount = this.props.users.users.friends.length;
     const followersCount = this.props.users.users.followers.length;
+    const kataomoiCount = this.props.users.users.friends.filter(id => this.props.users.users.allUserInfo[id] && !this.props.users.users.allUserInfo[id].connections.includes('followed_by')).length;
+    const kataomowareCount = this.props.users.users.followers.filter(id => this.props.users.users.allUserInfo[id] && !this.props.users.users.allUserInfo[id].connections.includes('following')).length;
     const loginContents = this.props.session.isLogin ? (
-      <div className="container">
+      <div>
         <ul className="nav nav-tabs" role="tablist">
           <li className="nav-item">
             <a href="#selected-users" className="nav-link" data-toggle="tab" role="tab">選択したユーザ({selectUserCount})</a>
@@ -22,10 +24,10 @@ class Index extends Component {
             <a href="#followers" className="nav-link" data-toggle="tab" role="tab">Followers({followersCount})</a>
           </li>
           <li className="nav-item">
-            <a href="#kataomoi" className="nav-link" data-toggle="tab" role="tab">片思い</a>
+            <a href="#kataomoi" className="nav-link" data-toggle="tab" role="tab">片思い({kataomoiCount})</a>
           </li>
           <li className="nav-item">
-            <a href="#kataomoware" className="nav-link" data-toggle="tab" role="tab">片思われ</a>
+            <a href="#kataomoware" className="nav-link" data-toggle="tab" role="tab">片思われ({kataomowareCount})</a>
           </li>
         </ul>
         <div className="tab-content">
@@ -45,16 +47,19 @@ class Index extends Component {
             <p>That is the friends & followers management tool of Twitter.</p>
           </div>
         </div>
-        {loginContents}
+        <div className="container">
+          <Toolbar />
+          {loginContents}
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    session: state.session,
-    users: state.users
+  return  {
+    users: state.users,
+    session: state.session
   };
 }
 

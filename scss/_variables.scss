@@ -1,7 +1,7 @@
 $enable-gradients: true;
 $border-radius: 1px;
 $navbar-border-radius: 0;
-$font-size-root: 14px;
+$font-size-root: 15px;
 $font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, '游ゴシック', 'Yu Gothic', sans-serif;
 $font-family-serif: Georgia, Times, 'Times New Roman', '游明朝', 'Yu Mincho', serif;
 $body-bg: #efecca;
@@ -13,9 +13,13 @@ $card-bg: rgba(#fff, .6);
 $list-group-bg: transparent;
 $card-border-color: #a7a37e;
 $list-group-border-color: $card-border-color;
-$nav-tabs-border-color: #a7a37e;
-$nav-tabs-link-hover-border-color: rgba($nav-tabs-border-color, .5);
-$nav-tabs-active-link-hover-border-color: $nav-tabs-border-color;
+$border-color: #a7a37e;
+$nav-tabs-border-color: $border-color;
+$nav-tabs-link-hover-border-color: rgba($border-color, .5);
+$nav-tabs-active-link-hover-border-color: $border-color;
+$table-border-color: $border-color;
+$table-bg-accent: #e6e2af;
+$table-bg-hover: #e6e2af;
 $fa-font-path: '~font-awesome/fonts';
 
 $secondary-color: #046380;

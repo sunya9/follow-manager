@@ -1,3 +1,15 @@
 .bg-faded {
   background-color: rgba(#fff, .6);
 }
+
+.btn-toolbar, .nav-tabs {
+  margin-bottom: 1rem;
+}
+
+.btn-group > label {
+  margin-bottom: 0;
+}
+
+[data-toggle='mode-switch']{
+  @extend [data-toggle="buttons"];
+}

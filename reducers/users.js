@@ -1,5 +1,5 @@
-import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT } from '../constants/users';
-
+import update from 'react/lib/update'
+import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT, SELECT_ALL } from '../constants/users';
 export default (state = {
   isFetching: false,
   isInitialized: false,
@@ -18,11 +18,7 @@ export default (state = {
   case FAIL_USERS:
     return Object.assign({}, state, {isFetching: false, error: action.error});
   case TOGGLE_SELECT: {
-    console.log(state);
-    console.log(action);
     const newUserInfo = Object.assign({}, state.users.allUserInfo[action.id], {select: !state.users.allUserInfo[action.id].select});
-    console.log(newUserInfo);
-    // return state;
     return Object.assign({}, state, {
       users: Object.assign({}, state.users, {
         allUserInfo: Object.assign({}, state.users.allUserInfo, {
@@ -30,6 +26,24 @@ export default (state = {
         })
       })
     });
+  }
+  case SELECT_ALL: {
+    const select = !action.showUsers.every(id => state.users.allUserInfo[id].select);
+    const someUserInfo = action.showUsers.reduce((memo, id) => {
+      memo[id] = Object.assign({}, state.users.allUserInfo[id], {
+        select
+      });
+      return memo;
+    }, {});
+    const res = update(state, {
+      users: {
+        allUserInfo: {
+          $set: Object.assign({}, state.users.allUserInfo, someUserInfo)
+        }
+      }
+    });
+    console.log(res);
+    return res;
   }
   default:
     return state;

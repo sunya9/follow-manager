@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT } from '../constants/users';
+import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT, SELECT_ALL, CANCEL_ALL } from '../constants/users';
 
 function fetchUsers() {
   return {
@@ -46,5 +46,12 @@ export function toggleSelect(id) {
   return {
     type: TOGGLE_SELECT,
     id
+  };
+}
+
+export function selectAll(showUsers) {
+  return {
+    type: SELECT_ALL,
+    showUsers
   };
 }

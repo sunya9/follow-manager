@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { toggleSelect } from '../../actions/users';
+import { toggleSelect } from '../actions/users';
 import { createLink } from '../../utils';
 
 class User extends Component {
@@ -89,12 +89,16 @@ class User extends Component {
 
 User.propTypes = {
   userId: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
 
 User.defaultProps = {
   userId: 0,
-  index: 0
+  index: 0,
+  user: {},
+  settings: {}
 };
 
 function mapStateToProps(state, ownProps) {

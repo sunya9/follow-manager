@@ -1,4 +1,4 @@
-import update from 'react/lib/update'
+import update from 'react/lib/update';
 import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT, SELECT_ALL } from '../constants/users';
 export default (state = {
   isFetching: false,
@@ -42,7 +42,6 @@ export default (state = {
         }
       }
     });
-    console.log(res);
     return res;
   }
   default:

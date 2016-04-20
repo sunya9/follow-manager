@@ -2,37 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import User from './user';
 import { connect } from 'react-redux';
 
-import { selectAll } from '../../actions/users';
+import { selectAll } from '../actions/users';
+import Checkbox from '../components/Checkbox';
 
 class List extends Component {
   constructor(props) {
     super(props);
     this.exist = this.exist.bind(this);
+    this.generateUser = this.generateUser.bind(this);
   }
   exist(id) {
     return this.props.users.users.allUserInfo[id].select;
   }
+  generateUser(id, index) {
+    return <User key={id} userId={+id} index={index + 1} />;
+  }
   render() {
-    let showUsers;
-    switch(this.props.type) {
-    case 'selected':
-      showUsers = Object.keys(this.props.users.users.allUserInfo)
-        .filter(id => this.props.users.users.allUserInfo[id].select);
-      break;
-    case 'friends':
-      showUsers = this.props.users.users.friends;
-      break;
-    case 'followers':
-      showUsers = this.props.users.users.followers;
-      break;
-    case 'kataomoi':
-      showUsers = this.props.users.users.friends.filter(id => !this.props.users.users.allUserInfo[id].connections.includes('followed_by'))
-      break;
-    case 'kataomoware':
-      showUsers = this.props.users.users.followers.filter(id => !this.props.users.users.allUserInfo[id].connections.includes('following'))
-      break;
-    }
-    const rows = showUsers.map(generateUser);
+    const rows = this.props.showUsers.map(this.generateUser);
     const isEmpty = rows.length === 0;
     const empty = 'ユーザは見つかりませんでした。';
     return this.props.settings.showMode === 'card' ? (
@@ -49,11 +35,9 @@ class List extends Component {
           <thead>
             <tr>
               <th>
-                <input type="checkbox" onChange={() => this.props.selectAll(showUsers)} disdabled={showUsers.length > 0} checked={showUsers.length > 0 && showUsers.every(this.exist)} ref={input => {
-                  if (input) {
-                    const count = showUsers.filter(id => this.props.users.users.allUserInfo[id].select).length;
-                    input.indeterminate = showUsers.length > 0 && 0 < count && count < showUsers.length;
-                  }
+                <Checkbox onChange={() => this.props.selectAll(this.props.showUsers)} disdabled={this.props.showUsers.length > 0} checked={this.props.showUsers.length > 0 && this.props.showUsers.every(this.exist)} indeterminate={() => {
+                  const count = this.props.showUsers.filter(id => this.props.users.users.allUserInfo[id].select).length;
+                  return this.props.showUsers.length > 0 && 0 < count && count < this.props.showUsers.length;
                 }} />
               </th>
               <th className="user-list-table__index">#</th>
@@ -79,18 +63,30 @@ class List extends Component {
   }
 }
 
-function generateUser(id, index) {
-  return <User key={id} userId={+id} index={index+1} />;
-}
 
 List.propTypes = {
   type: PropTypes.oneOf(['selected', 'friends', 'followers', 'kataomoi', 'kataomoware']).isRequired
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     users: state.users,
-    settings: state.settings
+    settings: state.settings,
+    showUsers: (() => {
+      switch(ownProps.type) {
+      case 'selected':
+        return Object.keys(state.users.users.allUserInfo)
+          .filter(id => state.users.users.allUserInfo[id].select);
+      case 'friends':
+        return state.users.users.friends;
+      case 'followers':
+        return state.users.users.followers;
+      case 'kataomoi':
+        return state.users.users.friends.filter(id => !state.users.users.allUserInfo[id].connections.includes('followed_by'));
+      case 'kataomoware':
+        return state.users.users.followers.filter(id => !state.users.users.allUserInfo[id].connections.includes('following'));
+      }
+    }).call(this)
   };
 }
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import Index from './pages/index';
-import About from './pages/about';
-import NotFound from './pages/notfound';
+import Index from './containers/Index';
+import About from './components/About';
+import NotFound from './components/NotFound';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import '../scss/main.scss';
-import configureStore, { DevTools } from '../client/store/configureStore';
+import configureStore, { DevTools } from './store/configureStore';
 
-import App from '../containers/App';
+import App from './containers/App';
 import 'bootstrap';
 
 const store = configureStore();

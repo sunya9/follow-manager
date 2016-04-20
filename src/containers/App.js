@@ -4,17 +4,18 @@ import { connect } from 'react-redux';
 import { getLoginStatusIfNeeded } from '../actions/session';
 import { getUsersIfNeeded } from '../actions/users';
 
-import Header from '../src/templates/header';
-import Footer from '../src/templates/footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.getLoginStatus();
-    if(this.props.session.isLogin && !this.props.users.isInitialized) {
-      this.props.getUsers();
-    }
+  constructor(props) {
+    super(props);
+    this.props.getLoginStatus().then(() =>{
+      if(this.props.session.isLogin && !this.props.users.isInitialized) {
+        this.props.getUsers();
+      }
+    });
   }
-
   render() {
     return (
       <div>
@@ -29,13 +30,16 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  return state;
+  return {
+    session: state.session,
+    users: state.users
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getLoginStatus() {
-      dispatch(getLoginStatusIfNeeded());
+      return dispatch(getLoginStatusIfNeeded());
     },
     getUsers() {
       dispatch(getUsersIfNeeded());

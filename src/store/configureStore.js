@@ -4,7 +4,7 @@ import { createDevTools } from 'redux-devtools';
 import thunkMiddleware from 'redux-thunk';
 import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
-import reducers from '../../reducers';
+import reducers from '../reducers';
 import { routerReducer } from 'react-router-redux';
 
 export const DevTools = createDevTools(
@@ -24,8 +24,8 @@ export default function configureStore() {
   );
 
   if (module.hot) {
-    module.hot.accept('../../reducers', () => {
-      const nextRootReducer = require('../../reducers/index');
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers/index');
       store.replaceReducer(nextRootReducer);
     });
   }

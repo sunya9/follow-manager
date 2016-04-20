@@ -1,7 +1,7 @@
 const _ = require('koa-route');
 const requireDir = require('require-dir');
 const $ = requireDir('../controllers');
-const unauthorized = require('../server/middlewares/401');
+const unauthorized = require('../middlewares/401');
 
 module.exports = app => {
   app.use(_.get('/token', $.token.get));

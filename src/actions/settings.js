@@ -18,5 +18,5 @@ export function changeReverse(reverse) {
   return {
     type: CHANGE_REVERSE,
     reverse
-  }
+  };
 }

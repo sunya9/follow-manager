@@ -1,4 +1,4 @@
-import { REQUEST_UPDATE_FILTER, UPDATE_FILTER, CLEAR_TIMER } from '../constants/filter';
+import { REQUEST_UPDATE_FILTER, UPDATE_FILTER } from '../constants/filter';
 
 const DEBOUNCE_TIME = 300;
 

@@ -9,29 +9,29 @@ exports.get = function *() {
   const client = new PromisifyTwitter(this);
   const res = {
     friends: [
-      58752234,
-      94347296,
-      14674531,
-      64240449,
-      86061782,
-      16069066,
-      47035434,
-      4622881,
-      612263681,
-      195266842,
-      121763617
+      // 58752234,
+      // 94347296,
+      // 14674531,
+      // 64240449,
+      // 86061782,
+      // 16069066,
+      // 47035434,
+      // 4622881,
+      // 612263681,
+      // 195266842,
+      // 121763617
     ],
     followers: [
-      58752234,
-      94347296,
-      14674531,
-      64240449,
-      86061782,
-      16069066,
-      47035434,
-      4622881,
-      246707927,
-      265977744
+      // 58752234,
+      // 94347296,
+      // 14674531,
+      // 64240449,
+      // 86061782,
+      // 16069066,
+      // 47035434,
+      // 4622881,
+      // 246707927,
+      // 265977744
     ],
     allUserInfo: [],
     error: null
@@ -46,7 +46,8 @@ exports.get = function *() {
           try {
             const ids = yield client.get(resource, {
               user_id: this.req.user.id,
-              cursor
+              cursor,
+              stringify_ids: true
             });
             push.apply(res, ids.ids);
             cursor = ids.next_cursor_str;
@@ -60,19 +61,20 @@ exports.get = function *() {
   };
 
   try {
-    // const ids = yield {
-    //   friends: getIds('/friends/ids.json'),
-    //   followers: getIds('/followers/ids.json')
-    // };
+    const ids = yield {
+      friends: getIds('/friends/ids.json'),
+      followers: getIds('/followers/ids.json')
+    };
     //
-    // push.apply(res.friends, ids.friends);
-    // push.apply(res.followers, ids.followers);
+    push.apply(res.friends, ids.friends.splice(0, 100));
+    push.apply(res.followers, ids.followers.splice(0, 100));
 
-    const allIds = _.union(res.friends, res.followers).splice(0, 100);
+    const allIds = _.union(res.friends, res.followers);
     res.allUserInfo = yield _.chain(allIds)
       .chunk(100)
       .map(chunkedIds => chunkedIds.join(','))
       .map(stringIds => {
+        console.log(stringIds);
         return Promise.all([
           client.get('/users/lookup.json', {
             user_id: stringIds
@@ -86,7 +88,11 @@ exports.get = function *() {
     res.allUserInfo = _.chain(res.allUserInfo)
       .map(unmergedInfo => _.merge(unmergedInfo[0], unmergedInfo[1]))
       .flatten()
-      .keyBy('id_str')
+      .reduce((memo, user) => {
+        console.log(user.id_str);
+        memo[user.id_str] = user;
+        return memo;
+      }, {})
       .value();
     this.body = JSON.stringify(res);
   } catch(e) {

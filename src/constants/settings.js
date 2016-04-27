@@ -1,1 +1,3 @@
 export const CHANGE_MODE = 'CHANGE_MODE';
+export const CHANGE_SORT_KEY = 'CHANGE_SORT_KEY';
+export const CHANGE_REVERSE = 'CHANGE_REVERSE';

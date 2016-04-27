@@ -7,8 +7,8 @@ import { createLink } from '../../utils';
 
 class User extends Component {
   render() {
-    const profile_image_url_https = this.props.user.profile_image_url_https.replace('normal', 'bigger');
-    const small_profile_image_url_https = this.props.user.profile_image_url_https.replace('normal', 'mini');
+    const profile_image_url_https = this.props.user.profile_image_url_https ? this.props.user.profile_image_url_https.replace('normal', 'bigger') : '';
+    const small_profile_image_url_https = this.props.user.profile_image_url_https ? this.props.user.profile_image_url_https.replace('normal', 'mini') : '';
     var description = this.props.user.description;
     if(description) {
       description = description.replace(/@[A-Za-z_0-9]+/g, id => createLink(`https://twitter.com/${id.substring(1)}`, id));
@@ -34,7 +34,12 @@ class User extends Component {
                 </div>
                 <div className="card-title__screen-name">
                   <small>
-                    <a href={`https://twitter.com/${this.props.user.screen_name}`} target="_new">@{this.props.user.screen_name}</a>
+                    <a href={`https://twitter.com/${this.props.user.screen_name}`} target="_new" title={this.props.user.id_str}>@{this.props.user.screen_name}</a>
+                    {this.props.user.protected ? (
+                      <span>
+                        &nbsp;<i className="fa fa-lock"></i>
+                      </span>
+                    ) : null}
                   </small>
                 </div>
               </div>
@@ -43,10 +48,10 @@ class User extends Component {
         </div>
         <ul className="list-group list-group-flush">
         {
-          this.props.user.entities.url ? (
+          this.props.user.entities && this.props.user.entities.url ? (
             <li className="list-group-item">
-              <a href={this.props.user.entities.url.urls[0].expanded_url} target="_new">
-              <i className="fa fa-link fa-fw"></i> {this.props.user.entities.url.urls[0].expanded_url}</a>
+              <a href={this.props.user.entities.url.urls[0].url} target="_new">
+              <i className="fa fa-link fa-fw"></i> {this.props.user.entities.url.urls[0].expanded_url ? this.props.user.entities.url.urls[0].expanded_url : this.props.user.entities.url.urls[0].url}</a>
             </li>
           ) : null
         }
@@ -59,10 +64,10 @@ class User extends Component {
           ) : null
         }
         </ul>
+        {this.props.user.entities && !this.props.user.entities.url && !this.props.user.location ? <hr /> : null}
         <div className="card-block">
           <p className="card-text" dangerouslySetInnerHTML={{__html: description}}>
           </p>
-          {this.props.user.id}
         </div>
       </li>
     ) : (
@@ -73,30 +78,34 @@ class User extends Component {
           this.props.toggleSelect();
         }
       }}>
-        <td>
+        <td className="user-list-table__checkbox user-list-table__checkbox--row">
           <input type="checkbox" checked={this.props.user.select} onChange={this.props.toggleSelect} />
         </td>
-        <th scope="row" className="user-list-table__index">{this.props.index}</th>
-        <td><img src={small_profile_image_url_https} width="24" height="24" /> {this.props.user.name}</td>
-        <td><a href={`https://twitter.com/${this.props.user.screen_name}`} target="_new">{this.props.user.screen_name}</a></td>
+        <td className="user-list-table__name user-list-table__name--row"><img src={small_profile_image_url_https} width="24" height="24" /> {this.props.user.name}</td>
+        <td>
+          <a href={`https://twitter.com/${this.props.user.screen_name}`} target="_new">{this.props.user.screen_name}</a>
+          {this.props.user.protected ? (
+            <span>
+              &nbsp;<i className="fa fa-lock"></i>
+            </span>
+          ) : null}
+        </td>
         <td>{this.props.user.friends_count}</td>
         <td>{this.props.user.followers_count}</td>
-        <td>{moment(new Date(this.props.user.status.created_at)).format('YYYY/MM/DD HH:mm:ss')}</td>
+        <td>{this.props.user.status ? moment(new Date(this.props.user.status.created_at)).format('YYYY/MM/DD HH:mm:ss') : null}</td>
       </tr>
     );
   }
 }
 
 User.propTypes = {
-  userId: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
+  userId: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired
 };
 
 User.defaultProps = {
-  userId: 0,
-  index: 0,
+  userId: '0',
   user: {},
   settings: {}
 };

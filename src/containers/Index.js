@@ -6,6 +6,18 @@ import Toolbar from './Toolbar';
 import TabButtonWithCounter from './TabButtonWithCounter';
 
 class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.changeList = this.changeList.bind(this);
+    this.state = {
+      listType: 'friends'
+    };
+  }
+  changeList(e) {
+    this.setState({
+      listType: e.currentTarget.hash.substring(1)
+    });
+  }
   render() {
     return (
       <div>
@@ -20,18 +32,14 @@ class Index extends Component {
             <div>
               <Toolbar />
               <ul className="nav nav-tabs" role="tablist">
-                <TabButtonWithCounter to="#selected-users" type="selected" text="選択したユーザ" />
-                <TabButtonWithCounter to="#friends" type="friends" text="Friends" />
-                <TabButtonWithCounter to="#followers" type="followers" text="Followers" />
-                <TabButtonWithCounter to="#kataomoi" type="kataomoi" text="片思い" />
-                <TabButtonWithCounter to="#kataomoware" type="kataomoware" text="片思われ" />
+                <TabButtonWithCounter to="#selected" text="選択したユーザ" onClick={this.changeList} />
+                <TabButtonWithCounter to="#friends" text="Following" onClick={this.changeList} />
+                <TabButtonWithCounter to="#followers" text="Followers" onClick={this.changeList} />
+                <TabButtonWithCounter to="#kataomoi" text="片思い" onClick={this.changeList} />
+                <TabButtonWithCounter to="#kataomoware" text="片思われ" onClick={this.changeList} />
               </ul>
               <div className="tab-content">
-                <div className="tab-pane" role="tabpanel" id="selected-users"><List type="selected" /></div>
-                <div className="tab-pane active" role="tabpanel" id="friends"><List type="friends" /></div>
-                <div className="tab-pane" role="tabpanel" id="followers"><List type="followers" /></div>
-                <div className="tab-pane" role="tabpanel" id="kataomoi"><List type="kataomoi" /></div>
-                <div className="tab-pane" role="tabpanel" id="kataomoware"><List type="kataomoware" /></div>
+                <List type={this.state.listType} />
               </div>
             </div>
           ) : null}

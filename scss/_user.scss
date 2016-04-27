@@ -71,9 +71,40 @@
 }
 
 .user-list-table {
-  &__index {
-    text-align: center;
+  table-layout: fixed;
+  thead tr {
+    border-bottom-style: double;
+    border-bottom-width: 3px;
+    th {
+      cursor: pointer;
+      &:hover {
+        a {
+          text-decoration: none;
+        }
+        .fa {
+          visibility: visible !important;
+        }
+      }
+    }
+  }
+  &__checkbox {
     width: 3rem;
+    padding: 0;
+    text-align: center;
+  }
+  &__screen-name {
+    width: 10rem;
+  }
+  &__name {
+    width: 20rem;
+    &--row {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  &__following, &__followers {
+    width: 7rem;
   }
   tbody tr {
     cursor: pointer;

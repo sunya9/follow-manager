@@ -5,24 +5,30 @@ import { requestLogout } from '../actions/session';
 
 class SessionButton extends Component {
   render() {
-    return this.props.isLogin ? (
+    return this.props.session.isLogin ? (
+        <div>
+        <a href={this.props.session.screen_name} target="_new">
+          <img src={this.props.session.icon} alt="" width="24" height="24" />
+          {this.props.session.name}
+        </a>としてログイン中&nbsp;
         <button className="btn btn-primary-outline" onClick={this.props.requestLogout}>
-          Logout
+          ログアウト
         </button>
+        </div>
       ) : (
-        <a href="/token" className="btn btn-primary">Login with Twitter</a>
+        <a href="/token" className="btn btn-primary">Twitterアカウントでログイン</a>
       );
   }
 }
 
 SessionButton.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
+  session: PropTypes.object.isRequired,
   requestLogout: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    isLogin: state.session.isLogin
+    session: state.session
   };
 }
 

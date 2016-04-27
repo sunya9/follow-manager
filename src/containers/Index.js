@@ -24,7 +24,7 @@ class Index extends Component {
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
             <h1>Follow Manager</h1>
-            <p>That is the friends & followers management tool of Twitter.</p>
+            <p>Twitterのフォロー/フォロワー管理ツールです。</p>
           </div>
         </div>
         <div className="container">
@@ -33,8 +33,8 @@ class Index extends Component {
               <Toolbar />
               <ul className="nav nav-tabs" role="tablist">
                 <TabButtonWithCounter to="#selected" text="選択したユーザ" onClick={this.changeList} />
-                <TabButtonWithCounter to="#friends" text="Following" onClick={this.changeList} />
-                <TabButtonWithCounter to="#followers" text="Followers" onClick={this.changeList} />
+                <TabButtonWithCounter to="#friends" text="フォロー" onClick={this.changeList} />
+                <TabButtonWithCounter to="#followers" text="フォロワー" onClick={this.changeList} />
                 <TabButtonWithCounter to="#kataomoi" text="片思い" onClick={this.changeList} />
                 <TabButtonWithCounter to="#kataomoware" text="片思われ" onClick={this.changeList} />
               </ul>

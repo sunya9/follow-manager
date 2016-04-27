@@ -21,11 +21,11 @@ class Toolbar extends Component {
         <div className="pull-xs-right">
           <div className="btn-toolbar" role="toolbar">
             <div className="btn-group" role="group" data-toggle="mode-switch">
-              <label className={'btn btn-primary-outline ' + (this.props.showMode === 'card' ? 'active' : '')} title="Show as a card">
+              <label className={'btn btn-primary-outline ' + (this.props.showMode === 'card' ? 'active' : '')} title="カード表示">
                 <input type="radio" name="show_mode" value='card' onChange={this.props.changeShowMode} checked={this.props.showMode === 'card'} />
                 <i className="fa fa-th"></i>
               </label>
-              <label className={'btn btn-primary-outline ' + (this.props.showMode === 'list' ? 'active' : '')} title="Show as a list">
+              <label className={'btn btn-primary-outline ' + (this.props.showMode === 'list' ? 'active' : '')} title="詳細表示">
                 <input type="radio" name="show_mode" value='list' onChange={this.props.changeShowMode} checked={this.props.showMode === 'list'} />
                 <i className="fa fa-list"></i>
               </label>

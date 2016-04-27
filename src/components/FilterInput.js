@@ -10,7 +10,7 @@ class FilterInput extends Component {
 
   render() {
     return (
-      <input {...this.props} type="text" placeholder="Filter user" onChange={this.onChange} className="form-control" />
+      <input {...this.props} type="text" placeholder="@IDか名前で検索" onChange={this.onChange} className="form-control" />
     );
   }
 

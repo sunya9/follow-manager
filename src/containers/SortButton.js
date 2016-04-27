@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { changeSortKey, changeReverse } from '../actions/settings';
 
 const sortNameList = [
-  {key: '', name: 'Default'},
-  {key: 'name', name: 'Name'},
-  {key: 'screen_name', name: 'Screen Name'},
-  {key: 'friends_count', name: 'Following'},
-  {key: 'followers_count', name: 'Followers'},
-  {key: 'status.created_at', name: 'Last-update'}
+  {key: '', name: '取得順'},
+  {key: 'name', name: '名前'},
+  {key: 'screen_name', name: '@ID'},
+  {key: 'friends_count', name: 'フォロー数'},
+  {key: 'followers_count', name: 'フォロワー数'},
+  {key: 'status.created_at', name: '最終更新日時'}
 ];
 
 function findSortName(key) {
@@ -45,7 +45,7 @@ class SortButton extends Component {
       <div className="btn-group" role="group">
         <div className="btn-group" role="group">
           <button type="button" className="btn btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {findSortName(this.props.sort.key)}
+            ソート:&nbsp;{findSortName(this.props.sort.key)}
           </button>
           <div className="dropdown-menu">
             {items}

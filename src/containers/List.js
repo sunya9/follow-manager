@@ -90,11 +90,11 @@ class List extends Component {
                   return filteredUsers.length > 0 && 0 < count && count < filteredUsers.length;
                 }} />
               </th>
-              <SortThButton className="user-list-table__name" sortKey="name" name="Name" />
-              <SortThButton className="user-list-table__screen_name" sortKey="screen_name" name="Screen Name" />
-              <SortThButton className="user-list-table__following" sortKey="friends_count" name="Following" />
-              <SortThButton className="user-list-table__followers" sortKey="followers_count" name="Followers" />
-              <SortThButton className="user-list-table__last-update" sortKey="status.created_at" name="Last-update" />
+              <SortThButton className="user-list-table__name" sortKey="name" name="名前" />
+              <SortThButton className="user-list-table__screen_name" sortKey="screen_name" name="@ID" />
+              <SortThButton className="user-list-table__following" sortKey="friends_count" name="フォロー数" />
+              <SortThButton className="user-list-table__followers" sortKey="followers_count" name="フォロワー数" />
+              <SortThButton className="user-list-table__last-update" sortKey="status.created_at" name="最終更新日" />
             </tr>
           </thead>
           <tbody>

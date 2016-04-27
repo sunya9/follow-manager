@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT, SELECT_ALL, CANCEL_ALL } from '../constants/users';
+import { FETCH_USERS, RECEIVE_USERS, FAIL_USERS, TOGGLE_SELECT, SELECT_ALL } from '../constants/users';
 
 function fetchUsers() {
   return {
@@ -8,7 +8,6 @@ function fetchUsers() {
 }
 
 function receiveUsers(users) {
-  console.log(users);
   Object.keys(users.allUserInfo).forEach(id => users.allUserInfo[id].select = false);
   return {
     type: RECEIVE_USERS,
@@ -34,9 +33,9 @@ function getUsers() {
 
 export function getUsersIfNeeded() {
   return (dispatch, getState) => {
-    if(getState().isFetching) {
+    if(getState().users.isFetching) {
       return Promise.resolve();
-    } else if(!getState().isInitialized) {
+    } else if(!getState().users.isInitialized) {
       return dispatch(getUsers());
     }
   };

@@ -7,10 +7,14 @@ export const fetchLogin = () => {
   };
 };
 
-export const receiveLogin = (isLogin) => {
+export const receiveLogin = (data) => {
+  const { isLogin, name, icon, screen_name } = data;
   return {
     type: RECEIVE_LOGIN_STATUS,
-    isLogin: isLogin
+    isLogin,
+    name,
+    icon,
+    screen_name
   };
 };
 
@@ -19,7 +23,7 @@ const getLoginStatus = () => {
     dispatch(fetchLogin());
     return $.getJSON('/isLogin')
       .then(data => {
-        dispatch(receiveLogin(data.isLogin));
+        dispatch(receiveLogin(data));
       });
   };
 };
@@ -40,10 +44,10 @@ function fetchLogout() {
   };
 }
 
-function receiveLogout(ok) {
+function receiveLogout() {
   return {
     type: SUCCESS_LOGOUT,
-    isLogin: !ok
+    isLogin: false
   };
 }
 
@@ -58,10 +62,10 @@ function logout() {
   return dispatch => {
     dispatch(fetchLogout());
     return $.getJSON('/logout')
-      .done(ok => {
-        dispatch(receiveLogout(ok));
+      .done(() => {
+        dispatch(receiveLogout());
       })
-      fail((xh, error) => {
+      .fail((xh, error) => {
         dispatch(failedLogout(error));
       });
   };
